@@ -1,0 +1,7 @@
+*.pyc
+.DS_Store
+checkpoint
+data
+!data/wiki/vocab.pkl
+log
+bin
