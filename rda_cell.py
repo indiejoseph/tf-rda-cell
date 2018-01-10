@@ -33,7 +33,7 @@ class RDACell(RNNCell):
     return self._num_units
 
   def __call__(self, inputs, state, scope=None):
-    with _checked_scope(self, scope or "rwa_cell", reuse=self._reuse):
+    with _checked_scope(self, scope or "rda_cell", reuse=self._reuse):
       h, n, d = state
 
       with vs.variable_scope("u"):
