@@ -4,13 +4,12 @@ import tensorflow as tf
 import dataplumbing as dp
 from tensorflow.contrib import rnn
 from tensorflow.contrib.rnn import GRUCell, BasicLSTMCell, LayerNormBasicLSTMCell
-from tensorflow.contrib.rnn.python.ops import core_rnn
 from tensorflow.contrib.layers import xavier_initializer as glorot
-from rwa_cell import RWACell
 from rda_cell import RDACell
+from rwa_cell import RWACell
 
 flags = tf.app.flags
-flags.DEFINE_string("rnn_type", "RWA", "rnn type [RWA, LSTM, GRU]")
+flags.DEFINE_string("rnn_type", "RDA", "rnn type [RDA, LSTM, GRU]")
 FLAGS = flags.FLAGS
 
 def main(_):
@@ -37,20 +36,23 @@ def main(_):
 
     if FLAGS.rnn_type == "RWA":
       cell = RWACell(num_cells)
-    elif FLAGS.rnn_type == "RWA_BN":
+    elif FLAGS.rnn_type == "RWA_LN":
       cell = RWACell(num_cells, normalize=True)
     elif FLAGS.rnn_type == "RDA":
       cell = RDACell(num_cells)
-    elif FLAGS.rnn_type == "RDA_BN":
+    elif FLAGS.rnn_type == "RDA_LN":
       cell = RDACell(num_cells, normalize=True)
     elif FLAGS.rnn_type == "LSTM":
       cell = BasicLSTMCell(num_cells)
-    elif FLAGS.rnn_type == "LSTM_BN":
+    elif FLAGS.rnn_type == "LSTM_LN":
       cell = LayerNormBasicLSTMCell(num_cells)
     elif FLAGS.rnn_type == "GRU":
       cell = GRUCell(num_cells)
+    else:
+      raise Exception('No specified cell')
 
     states = cell.zero_state(batch_size, tf.float32)
+
     outputs, states = tf.nn.dynamic_rnn(cell, x, l, states)
 
     W_o = tf.Variable(tf.random_uniform([num_cells, num_classes],

@@ -2,7 +2,7 @@
 This is a implementation of Recurrent Discounted Attention unit that extends Tensorflow's RNNCell, RDA is builds on the RWA by additionally allowing the discounting of the past.
 
 ### Requirements
-* tensorflow r1.1
+* tensorflow r1.6
 
 ### Accuracy
 ![Accuracy](/train_accuracy.png)
