@@ -7,6 +7,7 @@ from tensorflow.contrib.rnn import GRUCell, BasicLSTMCell, LayerNormBasicLSTMCel
 from tensorflow.contrib.layers import xavier_initializer as glorot
 from rda_cell import RDACell
 from rwa_cell import RWACell
+from ran_cell import RANCell
 
 flags = tf.app.flags
 flags.DEFINE_string("rnn_type", "RDA", "rnn type [RDA, LSTM, GRU]")
@@ -42,6 +43,10 @@ def main(_):
       cell = RDACell(num_cells)
     elif FLAGS.rnn_type == "RDA_LN":
       cell = RDACell(num_cells, normalize=True)
+    elif FLAGS.rnn_type == "RAN":
+      cell = RANCell(num_cells)
+    elif FLAGS.rnn_type == "RAN_LN":
+      cell = RANCell(num_cells, normalize=True)
     elif FLAGS.rnn_type == "LSTM":
       cell = BasicLSTMCell(num_cells)
     elif FLAGS.rnn_type == "LSTM_LN":
